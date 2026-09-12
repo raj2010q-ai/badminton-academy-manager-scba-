@@ -1,0 +1,2285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#0f172a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>AcademyOS</title>
+
+<style>
+:root{
+  --dark:#0f172a;
+  --dark2:#1e293b;
+  --bg:#f4f7fb;
+  --card:#fff;
+  --text:#0f172a;
+  --muted:#64748b;
+  --line:#e2e8f0;
+  --green:#10b981;
+  --green2:#059669;
+  --amber:#f59e0b;
+  --red:#ef4444;
+  --blue:#3b82f6;
+  --purple:#8b5cf6;
+  --shadow:0 8px 30px rgba(15,23,42,.06);
+}
+
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  min-height:100%;
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,
+  "Segoe UI",sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+
+button,input,select,textarea{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.hidden{
+  display:none!important;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar{
+  position:fixed;
+  inset:0 auto 0 0;
+  width:255px;
+  background:var(--dark);
+  color:#cbd5e1;
+  padding:18px 13px;
+  z-index:100;
+  display:flex;
+  flex-direction:column;
+  transition:.22s ease;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:5px 8px 27px;
+  color:#fff;
+}
+
+.logo{
+  width:43px;
+  height:43px;
+  border-radius:12px;
+  display:grid;
+  place-items:center;
+  background:var(--green);
+  color:#052e25;
+  font-weight:950;
+  font-size:20px;
+}
+
+.brand b{
+  font-size:17px;
+}
+
+.brand small{
+  display:block;
+  color:#94a3b8;
+  font-size:10px;
+  margin-top:2px;
+}
+
+.nav{
+  width:100%;
+  border:0;
+  background:transparent;
+  color:#94a3b8;
+  padding:12px;
+  border-radius:10px;
+  text-align:left;
+  display:flex;
+  align-items:center;
+  gap:11px;
+  margin:2px 0;
+  font-size:13px;
+  font-weight:650;
+}
+
+.nav:hover,
+.nav.active{
+  color:#fff;
+  background:var(--dark2);
+}
+
+.owner{
+  margin-top:auto;
+  border-top:1px solid #263449;
+  padding:15px 7px 5px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.owner-avatar{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:#334155;
+  color:#fff;
+  display:grid;
+  place-items:center;
+  font-weight:800;
+}
+
+.owner small{
+  display:block;
+  color:#94a3b8;
+  font-size:10px;
+  margin-top:2px;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+main{
+  margin-left:255px;
+  min-height:100vh;
+}
+
+.topbar{
+  height:70px;
+  background:#fff;
+  border-bottom:1px solid var(--line);
+  padding:0 25px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  position:sticky;
+  top:0;
+  z-index:50;
+}
+
+.menu{
+  display:none;
+  border:0;
+  background:transparent;
+  font-size:23px;
+}
+
+.global-search{
+  height:42px;
+  max-width:550px;
+  flex:1;
+  background:#f8fafc;
+  border:1px solid var(--line);
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:0 12px;
+}
+
+.global-search input{
+  width:100%;
+  border:0;
+  outline:0;
+  background:transparent;
+}
+
+.content{
+  max-width:1550px;
+  margin:auto;
+  padding:27px;
+}
+
+.heading{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:15px;
+  margin-bottom:22px;
+}
+
+.heading h1{
+  margin:0 0 5px;
+  font-size:26px;
+}
+
+.heading p{
+  margin:0;
+  color:var(--muted);
+  font-size:13px;
+}
+
+.primary{
+  border:0;
+  background:var(--green);
+  color:#fff;
+  border-radius:9px;
+  padding:10px 15px;
+  font-weight:800;
+}
+
+.primary:hover{
+  background:var(--green2);
+}
+
+/* =========================
+   STATISTICS
+========================= */
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+}
+
+.stat{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:15px;
+  padding:18px;
+  box-shadow:var(--shadow);
+}
+
+.stat-icon{
+  width:40px;
+  height:40px;
+  display:grid;
+  place-items:center;
+  border-radius:10px;
+  margin-bottom:13px;
+  background:#e2e8f0;
+}
+
+.stat-icon.green{background:#d1fae5}
+.stat-icon.blue{background:#dbeafe}
+.stat-icon.amber{background:#fef3c7}
+.stat-icon.purple{background:#ede9fe}
+
+.stat label{
+  display:block;
+  color:var(--muted);
+  font-size:11px;
+}
+
+.stat strong{
+  display:block;
+  font-size:26px;
+  margin:5px 0;
+}
+
+.stat small{
+  color:var(--muted);
+  font-size:10px;
+}
+
+/* =========================
+   PANELS
+========================= */
+
+.grid2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+  margin-top:17px;
+}
+
+.panel{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:15px;
+  overflow:hidden;
+  box-shadow:var(--shadow);
+}
+
+.panel-head{
+  min-height:64px;
+  padding:15px 18px;
+  border-bottom:1px solid #eef2f7;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.panel-head h2{
+  margin:0 0 3px;
+  font-size:15px;
+}
+
+.panel-head small{
+  color:var(--muted);
+  font-size:10px;
+}
+
+.panel-body{
+  padding:18px;
+}
+
+/* =========================
+   CLIENT LIST
+========================= */
+
+.client-row{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:14px 18px;
+  border-bottom:1px solid #eef2f7;
+}
+
+.client-row:last-child{
+  border-bottom:0;
+}
+
+.client-avatar{
+  width:39px;
+  height:39px;
+  border-radius:11px;
+  background:#d1fae5;
+  color:#047857;
+  display:grid;
+  place-items:center;
+  font-weight:900;
+  flex:none;
+}
+
+.client-info{
+  flex:1;
+  min-width:0;
+}
+
+.client-info b{
+  font-size:12px;
+  display:block;
+}
+
+.client-info small{
+  display:block;
+  color:var(--muted);
+  font-size:10px;
+  margin-top:3px;
+}
+
+/* =========================
+   STATUS
+========================= */
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  padding:5px 8px;
+  border-radius:999px;
+  font-size:9px;
+  font-weight:850;
+}
+
+.badge.active{
+  color:#047857;
+  background:#d1fae5;
+}
+
+.badge.trial{
+  color:#b45309;
+  background:#fef3c7;
+}
+
+.badge.suspended{
+  color:#b91c1c;
+  background:#fee2e2;
+}
+
+/* =========================
+   ACTIVITY
+========================= */
+
+.activity-row{
+  display:flex;
+  gap:11px;
+  padding:14px 18px;
+  border-bottom:1px solid #eef2f7;
+}
+
+.activity-row:last-child{
+  border-bottom:0;
+}
+
+.activity-icon{
+  width:34px;
+  height:34px;
+  border-radius:9px;
+  background:#ecfdf5;
+  color:#047857;
+  display:grid;
+  place-items:center;
+  flex:none;
+}
+
+.activity-info{
+  min-width:0;
+}
+
+.activity-info b{
+  display:block;
+  font-size:11px;
+}
+
+.activity-info small{
+  color:var(--muted);
+  font-size:10px;
+}
+
+/* =========================
+   TABLE
+========================= */
+
+.table-wrap{
+  overflow:auto;
+}
+
+table{
+  width:100%;
+  min-width:750px;
+  border-collapse:collapse;
+}
+
+th,td{
+  padding:13px 16px;
+  border-bottom:1px solid #eef2f7;
+  text-align:left;
+  font-size:11px;
+}
+
+th{
+  color:var(--muted);
+  background:#fafbfc;
+  font-size:10px;
+}
+
+td b{
+  font-size:11px;
+}
+
+.sub{
+  color:#94a3b8;
+  display:block;
+  margin-top:3px;
+  font-size:9px;
+}
+
+.filters{
+  padding:13px;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  gap:9px;
+}
+
+.filters input,
+.filters select{
+  height:39px;
+  border:1px solid var(--line);
+  border-radius:9px;
+  padding:0 10px;
+  outline:0;
+  background:#fff;
+}
+
+.filters input{
+  flex:1;
+}
+
+.action{
+  border:0;
+  border-radius:8px;
+  padding:7px 9px;
+  font-size:10px;
+  font-weight:750;
+}
+
+.action.blue{
+  background:#eff6ff;
+  color:#1d4ed8;
+}
+
+.action.red{
+  background:#fee2e2;
+  color:#b91c1c;
+}
+
+/* =========================
+   INSTALLATION
+========================= */
+
+.install-id{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:10px;
+  font-weight:700;
+}
+
+.platform{
+  display:inline-flex;
+  gap:6px;
+  align-items:center;
+}
+
+/* =========================
+   MODAL
+========================= */
+
+.modal-bg{
+  position:fixed;
+  inset:0;
+  z-index:200;
+  background:rgba(15,23,42,.68);
+  display:grid;
+  place-items:center;
+  padding:15px;
+}
+
+.modal{
+  width:min(570px,100%);
+  max-height:92vh;
+  overflow:auto;
+  background:#fff;
+  border-radius:17px;
+  padding:22px;
+}
+
+.modal-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:15px;
+}
+
+.modal-head h2{
+  margin:0 0 4px;
+  font-size:19px;
+}
+
+.modal-head small{
+  color:var(--muted);
+}
+
+.close{
+  width:35px;
+  height:35px;
+  border:0;
+  background:#f1f5f9;
+  border-radius:9px;
+}
+
+.form{
+  display:grid;
+  gap:13px;
+  margin-top:20px;
+}
+
+.form label{
+  font-size:11px;
+  font-weight:750;
+}
+
+.form input,
+.form select,
+.form textarea{
+  display:block;
+  width:100%;
+  margin-top:5px;
+  border:1px solid #cbd5e1;
+  border-radius:9px;
+  min-height:42px;
+  padding:9px 10px;
+  outline:0;
+  background:#fff;
+}
+
+.two{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:11px;
+}
+
+/* =========================
+   EMPTY
+========================= */
+
+.empty{
+  padding:38px 20px;
+  text-align:center;
+  color:var(--muted);
+  font-size:12px;
+}
+
+/* =========================
+   TOAST
+========================= */
+
+.toast{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:300;
+  background:var(--dark);
+  color:#fff;
+  border-radius:10px;
+  padding:12px 15px;
+  box-shadow:0 10px 30px #0003;
+  font-size:11px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:950px){
+
+  .sidebar{
+    transform:translateX(-100%);
+  }
+
+  .sidebar.open{
+    transform:translateX(0);
+  }
+
+  main{
+    margin-left:0;
+  }
+
+  .menu{
+    display:block;
+  }
+
+  .overlay{
+    position:fixed;
+    inset:0;
+    z-index:90;
+    background:#0f172a88;
+  }
+
+  .stats{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .grid2{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:600px){
+
+  .topbar{
+    height:64px;
+    padding:0 12px;
+  }
+
+  .content{
+    padding:15px;
+  }
+
+  .heading h1{
+    font-size:21px;
+  }
+
+  .stats{
+    gap:9px;
+  }
+
+  .stat{
+    padding:14px;
+  }
+
+  .stat strong{
+    font-size:20px;
+  }
+
+  .heading{
+    flex-direction:column;
+  }
+
+  .heading .primary{
+    width:100%;
+  }
+
+  .two{
+    grid-template-columns:1fr;
+  }
+
+  .filters{
+    flex-wrap:wrap;
+  }
+
+  .filters input{
+    flex-basis:100%;
+  }
+
+  .filters select{
+    flex:1;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar" id="sidebar">
+
+  <div class="brand">
+    <div class="logo">A</div>
+    <div>
+      <b>AcademyOS</b>
+      <small>Management Platform</small>
+    </div>
+  </div>
+
+  <button class="nav active" data-page="dashboard">
+    📊 Dashboard
+  </button>
+
+  <button class="nav" data-page="clients">
+    🏢 Clients
+  </button>
+
+  <button class="nav" data-page="installations">
+    📱 Installations
+  </button>
+
+  <button class="nav" data-page="users">
+    👥 Users
+  </button>
+
+  <button class="nav" data-page="players">
+    🏃 Players
+  </button>
+
+  <button class="nav" data-page="activity">
+    ⚡ Activity
+  </button>
+
+  <div class="owner">
+    <div class="owner-avatar">SA</div>
+    <div>
+      <b>Super Admin</b>
+      <small>Owner account</small>
+    </div>
+  </div>
+
+</aside>
+
+<div id="overlay" class="hidden"></div>
+
+<!-- MAIN -->
+
+<main>
+
+  <header class="topbar">
+
+    <button class="menu" id="menu">
+      ☰
+    </button>
+
+    <div class="global-search">
+      🔎
+      <input
+        id="globalSearch"
+        placeholder="Search clients, users, players...">
+    </div>
+
+    <button class="primary" onclick="openClientModal()">
+      ＋ New Client
+    </button>
+
+  </header>
+
+  <section class="content" id="content"></section>
+
+</main>
+
+<div id="modal"></div>
+<div id="toast"></div>
+
+<script>
+
+/* =========================================================
+   DATABASE
+   ========================================================= */
+
+const STORAGE_KEY="academyOS_database_v2";
+
+const initialDatabase={
+
+  clients:[
+    {
+      id:"CLI-1001",
+      name:"Sports Academy Pune",
+      city:"Pune",
+      plan:"Professional",
+      status:"Active",
+      users:3,
+      installations:4,
+      players:184,
+      created:"2026-06-10",
+      lastActive:"Today"
+    },
+    {
+      id:"CLI-1002",
+      name:"Kolhapur Football Academy",
+      city:"Kolhapur",
+      plan:"Professional",
+      status:"Active",
+      users:2,
+      installations:3,
+      players:96,
+      created:"2026-07-02",
+      lastActive:"2 hours ago"
+    },
+    {
+      id:"CLI-1003",
+      name:"ABC Cricket Club",
+      city:"Mumbai",
+      plan:"Trial",
+      status:"Trial",
+      users:1,
+      installations:1,
+      players:31,
+      created:"2026-09-01",
+      lastActive:"Yesterday"
+    }
+  ],
+
+  users:[
+    {
+      id:"USR-1001",
+      name:"Academy Admin",
+      client:"Sports Academy Pune",
+      role:"Admin",
+      status:"Active",
+      lastLogin:"Today"
+    },
+    {
+      id:"USR-1002",
+      name:"Coach Rahul",
+      client:"Sports Academy Pune",
+      role:"Coach",
+      status:"Active",
+      lastLogin:"Today"
+    },
+    {
+      id:"USR-1003",
+      name:"Staff Member",
+      client:"Kolhapur Football Academy",
+      role:"Staff",
+      status:"Active",
+      lastLogin:"2 hours ago"
+    },
+    {
+      id:"USR-1004",
+      name:"ABC Admin",
+      client:"ABC Cricket Club",
+      role:"Admin",
+      status:"Active",
+      lastLogin:"Yesterday"
+    }
+  ],
+
+  installations:[
+    {
+      id:"INST-8F3A2C91",
+      client:"Sports Academy Pune",
+      platform:"Android",
+      version:"1.0.0",
+      firstSeen:"2026-06-11",
+      lastSeen:"4 minutes ago"
+    },
+    {
+      id:"INST-7BC91D21",
+      client:"Sports Academy Pune",
+      platform:"Chrome",
+      version:"1.0.0",
+      firstSeen:"2026-06-15",
+      lastSeen:"12 minutes ago"
+    },
+    {
+      id:"INST-4D8C91AA",
+      client:"Kolhapur Football Academy",
+      platform:"Android",
+      version:"1.0.0",
+      firstSeen:"2026-07-03",
+      lastSeen:"2 hours ago"
+    },
+    {
+      id:"INST-72AA18CD",
+      client:"ABC Cricket Club",
+      platform:"Android",
+      version:"1.0.0",
+      firstSeen:"2026-09-01",
+      lastSeen:"Yesterday"
+    }
+  ],
+
+  players:[],
+
+  activity:[
+    {
+      icon:"📱",
+      text:"New Android installation registered",
+      client:"Sports Academy Pune",
+      time:"4 minutes ago"
+    },
+    {
+      icon:"👤",
+      text:"Coach Rahul logged in",
+      client:"Sports Academy Pune",
+      time:"35 minutes ago"
+    },
+    {
+      icon:"📊",
+      text:"Dashboard opened",
+      client:"Kolhapur Football Academy",
+      time:"2 hours ago"
+    },
+    {
+      icon:"🏢",
+      text:"New trial client registered",
+      client:"ABC Cricket Club",
+      time:"Yesterday"
+    }
+  ]
+
+};
+
+let db=
+  JSON.parse(localStorage.getItem(STORAGE_KEY))
+  || structuredClone(initialDatabase);
+
+let currentPage="dashboard";
+let search="";
+
+/* =========================================================
+   SAVE
+   ========================================================= */
+
+function save(){
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(db)
+  );
+
+}
+
+/* =========================================================
+   HELPERS
+   ========================================================= */
+
+function esc(value){
+
+  return String(value ?? "")
+    .replace(/[&<>"']/g,char=>({
+
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#039;"
+
+    }[char]));
+
+}
+
+function initials(name){
+
+  return String(name||"?")
+    .trim()
+    .split(/\s+/)
+    .slice(0,2)
+    .map(x=>x[0])
+    .join("")
+    .toUpperCase();
+
+}
+
+function statusBadge(status){
+
+  const cls=
+    status==="Active"
+      ?"active"
+      :status==="Trial"
+      ?"trial"
+      :"suspended";
+
+  return `<span class="badge ${cls}">
+    ${esc(status)}
+  </span>`;
+
+}
+
+function filtered(array){
+
+  if(!search.trim())
+    return array;
+
+  const q=search.toLowerCase();
+
+  return array.filter(item=>
+    JSON.stringify(item)
+      .toLowerCase()
+      .includes(q)
+  );
+
+}
+
+function notify(message){
+
+  const root=document.getElementById("toast");
+
+  root.innerHTML=
+    `<div class="toast">${esc(message)}</div>`;
+
+  setTimeout(()=>{
+    root.innerHTML="";
+  },2500);
+
+}
+
+/* =========================================================
+   DASHBOARD
+   ========================================================= */
+
+function dashboard(){
+
+  const totalClients=db.clients.length;
+
+  const activeClients=
+    db.clients.filter(x=>x.status==="Active").length;
+
+  const trialClients=
+    db.clients.filter(x=>x.status==="Trial").length;
+
+  const suspendedClients=
+    db.clients.filter(x=>x.status==="Suspended").length;
+
+  const totalUsers=db.users.length;
+
+  const totalInstallations=
+    db.installations.length;
+
+  const totalPlayers=
+    db.clients.reduce(
+      (total,c)=>total+Number(c.players||0),
+      0
+    );
+
+  return `
+
+  <div class="heading">
+
+    <div>
+      <h1>Platform Dashboard</h1>
+      <p>
+        Complete overview of your AcademyOS product.
+      </p>
+    </div>
+
+  </div>
+
+  <div class="stats">
+
+    <div class="stat">
+
+      <div class="stat-icon green">🏢</div>
+
+      <label>Total Clients</label>
+
+      <strong>${totalClients}</strong>
+
+      <small>
+        ${activeClients} active ·
+        ${trialClients} trial ·
+        ${suspendedClients} suspended
+      </small>
+
+    </div>
+
+    <div class="stat">
+
+      <div class="stat-icon blue">👥</div>
+
+      <label>Registered Users</label>
+
+      <strong>${totalUsers}</strong>
+
+      <small>
+        Client admins, coaches & staff
+      </small>
+
+    </div>
+
+    <div class="stat">
+
+      <div class="stat-icon amber">📱</div>
+
+      <label>Installations</label>
+
+      <strong>${totalInstallations}</strong>
+
+      <small>
+        Unique installation records
+      </small>
+
+    </div>
+
+    <div class="stat">
+
+      <div class="stat-icon purple">🏃</div>
+
+      <label>Players Managed</label>
+
+      <strong>${totalPlayers.toLocaleString("en-IN")}</strong>
+
+      <small>
+        Across all organizations
+      </small>
+
+    </div>
+
+  </div>
+
+  <div class="grid2">
+
+    <div class="panel">
+
+      <div class="panel-head">
+
+        <div>
+          <h2>Clients</h2>
+          <small>Organizations using AcademyOS</small>
+        </div>
+
+        <button
+          class="action blue"
+          onclick="navigate('clients')">
+          View all
+        </button>
+
+      </div>
+
+      ${
+        db.clients.length
+        ?
+        db.clients.slice(0,6).map(c=>`
+
+          <div class="client-row">
+
+            <div class="client-avatar">
+              ${initials(c.name)}
+            </div>
+
+            <div class="client-info">
+
+              <b>${esc(c.name)}</b>
+
+              <small>
+                ${esc(c.city)} ·
+                ${c.users} users ·
+                ${c.players} players
+              </small>
+
+            </div>
+
+            ${statusBadge(c.status)}
+
+          </div>
+
+        `).join("")
+        :
+        `<div class="empty">No clients yet.</div>`
+      }
+
+    </div>
+
+    <div class="panel">
+
+      <div class="panel-head">
+
+        <div>
+          <h2>Recent Activity</h2>
+          <small>Latest platform events</small>
+        </div>
+
+        <button
+          class="action blue"
+          onclick="navigate('activity')">
+          View all
+        </button>
+
+      </div>
+
+      ${
+        db.activity.length
+        ?
+        db.activity.slice(0,6).map(a=>`
+
+          <div class="activity-row">
+
+            <div class="activity-icon">
+              ${esc(a.icon)}
+            </div>
+
+            <div class="activity-info">
+
+              <b>${esc(a.text)}</b>
+
+              <small>
+                ${esc(a.client)} ·
+                ${esc(a.time)}
+              </small>
+
+            </div>
+
+          </div>
+
+        `).join("")
+        :
+        `<div class="empty">No activity yet.</div>`
+      }
+
+    </div>
+
+  </div>
+
+  <div class="grid2">
+
+    <div class="panel">
+
+      <div class="panel-head">
+
+        <div>
+          <h2>Installation Overview</h2>
+          <small>Platform distribution</small>
+        </div>
+
+      </div>
+
+      <div class="panel-body">
+
+        ${installationStats()}
+
+      </div>
+
+    </div>
+
+    <div class="panel">
+
+      <div class="panel-head">
+
+        <div>
+          <h2>Client Health</h2>
+          <small>Current account distribution</small>
+        </div>
+
+      </div>
+
+      <div class="panel-body">
+
+        ${clientHealth()}
+
+      </div>
+
+    </div>
+
+  </div>
+
+  `;
+
+}
+
+/* =========================================================
+   INSTALLATION STATS
+   ========================================================= */
+
+function installationStats(){
+
+  const android=
+    db.installations.filter(
+      x=>x.platform==="Android"
+    ).length;
+
+  const chrome=
+    db.installations.filter(
+      x=>x.platform==="Chrome"
+    ).length;
+
+  const other=
+    db.installations.length-android-chrome;
+
+  const total=
+    Math.max(db.installations.length,1);
+
+  const rows=[
+    ["Android","📱",android],
+    ["Chrome","🌐",chrome],
+    ["Other","💻",other]
+  ];
+
+  return rows.map(row=>{
+
+    const percent=
+      Math.round((row[2]/total)*100);
+
+    return `
+
+      <div style="
+        display:grid;
+        grid-template-columns:100px 1fr 35px;
+        align-items:center;
+        gap:10px;
+        margin:15px 0;
+        font-size:11px;
+      ">
+
+        <span>
+          ${row[1]} ${row[0]}
+        </span>
+
+        <div style="
+          height:8px;
+          background:#e2e8f0;
+          border-radius:99px;
+          overflow:hidden;
+        ">
+
+          <div style="
+            width:${percent}%;
+            height:100%;
+            background:var(--green);
+            border-radius:99px;
+          "></div>
+
+        </div>
+
+        <b>${row[2]}</b>
+
+      </div>
+
+    `;
+
+  }).join("");
+
+}
+
+/* =========================================================
+   CLIENT HEALTH
+   ========================================================= */
+
+function clientHealth(){
+
+  const total=Math.max(db.clients.length,1);
+
+  const active=
+    db.clients.filter(
+      x=>x.status==="Active"
+    ).length;
+
+  const trial=
+    db.clients.filter(
+      x=>x.status==="Trial"
+    ).length;
+
+  const suspended=
+    db.clients.filter(
+      x=>x.status==="Suspended"
+    ).length;
+
+  return `
+
+    <div style="display:grid;gap:12px">
+
+      <div style="
+        display:flex;
+        justify-content:space-between;
+        font-size:12px;
+      ">
+        <span>Active clients</span>
+        <b>${active}</b>
+      </div>
+
+      <div style="
+        height:8px;
+        background:#e2e8f0;
+        border-radius:99px;
+        overflow:hidden;
+      ">
+        <div style="
+          width:${active/total*100}%;
+          height:100%;
+          background:var(--green);
+        "></div>
+      </div>
+
+      <div style="
+        display:flex;
+        justify-content:space-between;
+        font-size:12px;
+      ">
+        <span>Trial clients</span>
+        <b>${trial}</b>
+      </div>
+
+      <div style="
+        height:8px;
+        background:#e2e8f0;
+        border-radius:99px;
+        overflow:hidden;
+      ">
+        <div style="
+          width:${trial/total*100}%;
+          height:100%;
+          background:var(--amber);
+        "></div>
+      </div>
+
+      <div style="
+        display:flex;
+        justify-content:space-between;
+        font-size:12px;
+      ">
+        <span>Suspended</span>
+        <b>${suspended}</b>
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+/* =========================================================
+   CLIENTS
+   ========================================================= */
+
+function clientsPage(){
+
+  const list=filtered(db.clients);
+
+  return `
+
+  <div class="heading">
+
+    <div>
+      <h1>Clients</h1>
+      <p>
+        Manage every academy and organization using the platform.
+      </p>
+    </div>
+
+    <button
+      class="primary"
+      onclick="openClientModal()">
+      ＋ New Client
+    </button>
+
+  </div>
+
+  <div class="panel">
+
+    <div class="filters">
+
+      <input
+        id="pageSearch"
+        value="${esc(search)}"
+        placeholder="Search clients...">
+
+    </div>
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>Client</th>
+            <th>Plan</th>
+            <th>Users</th>
+            <th>Installations</th>
+            <th>Players</th>
+            <th>Status</th>
+            <th>Last Active</th>
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+        ${
+          list.length
+          ?
+          list.map(c=>`
+
+            <tr>
+
+              <td>
+                <b>${esc(c.name)}</b>
+                <span class="sub">
+                  ${c.id} · ${esc(c.city)}
+                </span>
+              </td>
+
+              <td>${esc(c.plan)}</td>
+
+              <td>${c.users}</td>
+
+              <td>${c.installations}</td>
+
+              <td>${c.players}</td>
+
+              <td>${statusBadge(c.status)}</td>
+
+              <td>${esc(c.lastActive)}</td>
+
+            </tr>
+
+          `).join("")
+          :
+          `
+          <tr>
+            <td colspan="7">
+              <div class="empty">
+                No clients found.
+              </div>
+            </td>
+          </tr>
+          `
+        }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+  `;
+
+}
+
+/* =========================================================
+   INSTALLATIONS
+   ========================================================= */
+
+function installationsPage(){
+
+  const list=filtered(db.installations);
+
+  return `
+
+  <div class="heading">
+
+    <div>
+      <h1>Installations</h1>
+      <p>
+        Anonymous installation records for platform analytics.
+      </p>
+    </div>
+
+  </div>
+
+  <div class="panel">
+
+    <div class="filters">
+
+      <input
+        id="pageSearch"
+        value="${esc(search)}"
+        placeholder="Search installation or client...">
+
+    </div>
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>Installation</th>
+            <th>Client</th>
+            <th>Platform</th>
+            <th>Version</th>
+            <th>First Seen</th>
+            <th>Last Seen</th>
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+        ${
+          list.length
+          ?
+          list.map(i=>`
+
+            <tr>
+
+              <td>
+                <span class="install-id">
+                  ${esc(i.id)}
+                </span>
+              </td>
+
+              <td>
+                ${esc(i.client)}
+              </td>
+
+              <td>
+                <span class="platform">
+                  ${i.platform==="Android"?"📱":"🌐"}
+                  ${esc(i.platform)}
+                </span>
+              </td>
+
+              <td>${esc(i.version)}</td>
+
+              <td>${esc(i.firstSeen)}</td>
+
+              <td>${esc(i.lastSeen)}</td>
+
+            </tr>
+
+          `).join("")
+          :
+          `
+          <tr>
+            <td colspan="6">
+              <div class="empty">
+                No installations found.
+              </div>
+            </td>
+          </tr>
+          `
+        }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+  `;
+
+}
+
+/* =========================================================
+   USERS
+   ========================================================= */
+
+function usersPage(){
+
+  const list=filtered(db.users);
+
+  return `
+
+  <div class="heading">
+
+    <div>
+      <h1>Users</h1>
+      <p>
+        Admin, coach and staff accounts belonging to clients.
+      </p>
+    </div>
+
+  </div>
+
+  <div class="panel">
+
+    <div class="filters">
+
+      <input
+        id="pageSearch"
+        value="${esc(search)}"
+        placeholder="Search users...">
+
+    </div>
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>User</th>
+            <th>Client</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Last Login</th>
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+        ${
+          list.length
+          ?
+          list.map(u=>`
+
+            <tr>
+
+              <td>
+                <b>${esc(u.name)}</b>
+                <span class="sub">${esc(u.id)}</span>
+              </td>
+
+              <td>${esc(u.client)}</td>
+
+              <td>${esc(u.role)}</td>
+
+              <td>${statusBadge(u.status)}</td>
+
+              <td>${esc(u.lastLogin)}</td>
+
+            </tr>
+
+          `).join("")
+          :
+          `
+          <tr>
+            <td colspan="5">
+              <div class="empty">
+                No users found.
+              </div>
+            </td>
+          </tr>
+          `
+        }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+  `;
+
+}
+
+/* =========================================================
+   PLAYERS
+   ========================================================= */
+
+function playersPage(){
+
+  const list=filtered(db.players);
+
+  return `
+
+  <div class="heading">
+
+    <div>
+      <h1>Players</h1>
+      <p>
+        Cross-client player overview.
+      </p>
+    </div>
+
+  </div>
+
+  <div class="panel">
+
+    ${
+      list.length
+      ?
+      `
+      <div class="table-wrap">
+
+        <table>
+
+          <thead>
+
+            <tr>
+              <th>Player</th>
+              <th>Client</th>
+              <th>Sport</th>
+              <th>Monthly Fee</th>
+              <th>Payment Status</th>
+            </tr>
+
+          </thead>
+
+          <tbody>
+
+          ${list.map(p=>`
+
+            <tr>
+
+              <td>
+                <b>${esc(p.name)}</b>
+                <span class="sub">${esc(p.id)}</span>
+              </td>
+
+              <td>${esc(p.client)}</td>
+
+              <td>${esc(p.sport)}</td>
+
+              <td>₹${Number(p.fee||0).toLocaleString("en-IN")}</td>
+
+              <td>${statusBadge(p.status)}</td>
+
+            </tr>
+
+          `).join("")}
+
+          </tbody>
+
+        </table>
+
+      </div>
+      `
+      :
+      `
+      <div class="empty">
+
+        No player records have been synced yet.
+
+        <br><br>
+
+        Player records will appear here when your client academies start using the player-management system.
+
+      </div>
+      `
+    }
+
+  </div>
+
+  `;
+
+}
+
+/* =========================================================
+   ACTIVITY
+   ========================================================= */
+
+function activityPage(){
+
+  const list=filtered(db.activity);
+
+  return `
+
+  <div class="heading">
+
+    <div>
+      <h1>Activity Log</h1>
+      <p>
+        Platform activity for transparency and auditing.
+      </p>
+    </div>
+
+  </div>
+
+  <div class="panel">
+
+    ${
+      list.length
+      ?
+      list.map(a=>`
+
+        <div class="activity-row">
+
+          <div class="activity-icon">
+            ${esc(a.icon)}
+          </div>
+
+          <div class="activity-info">
+
+            <b>${esc(a.text)}</b>
+
+            <small>
+              ${esc(a.client)} ·
+              ${esc(a.time)}
+            </small>
+
+          </div>
+
+        </div>
+
+      `).join("")
+      :
+      `<div class="empty">No activity found.</div>`
+    }
+
+  </div>
+
+  `;
+
+}
+
+/* =========================================================
+   NEW CLIENT MODAL
+   ========================================================= */
+
+function openClientModal(){
+
+  document.getElementById("modal").innerHTML=`
+
+    <div
+      class="modal-bg"
+      onclick="if(event.target===this)closeModal()">
+
+      <div class="modal">
+
+        <div class="modal-head">
+
+          <div>
+            <h2>Create Client</h2>
+            <small>
+              Register a new academy or organization.
+            </small>
+          </div>
+
+          <button
+            class="close"
+            onclick="closeModal()">
+            ✕
+          </button>
+
+        </div>
+
+        <form
+          class="form"
+          onsubmit="createClient(event)">
+
+          <label>
+
+            Academy / Organization Name
+
+            <input
+              name="name"
+              required
+              placeholder="Pune Sports Academy">
+
+          </label>
+
+          <div class="two">
+
+            <label>
+
+              City
+
+              <input
+                name="city"
+                required
+                placeholder="Pune">
+
+            </label>
+
+            <label>
+
+              Plan
+
+              <select name="plan">
+
+                <option>Trial</option>
+                <option>Starter</option>
+                <option>Professional</option>
+                <option>Enterprise</option>
+
+              </select>
+
+            </label>
+
+          </div>
+
+          <label>
+
+            Primary Admin Name
+
+            <input
+              name="admin"
+              required
+              placeholder="Academy owner / administrator">
+
+          </label>
+
+          <button class="primary">
+            Create Client
+          </button>
+
+        </form>
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+/* =========================================================
+   CREATE CLIENT
+   ========================================================= */
+
+function createClient(event){
+
+  event.preventDefault();
+
+  const data=
+    new FormData(event.target);
+
+  const name=
+    String(data.get("name")).trim();
+
+  const city=
+    String(data.get("city")).trim();
+
+  const plan=
+    String(data.get("plan"));
+
+  const admin=
+    String(data.get("admin")).trim();
+
+  const clientId=
+    "CLI-"+String(Date.now()).slice(-7);
+
+  const client={
+
+    id:clientId,
+
+    name,
+
+    city,
+
+    plan,
+
+    status:
+      plan==="Trial"
+      ?"Trial"
+      :"Active",
+
+    users:1,
+
+    installations:0,
+
+    players:0,
+
+    created:
+      new Date().toISOString().slice(0,10),
+
+    lastActive:"Just now"
+
+  };
+
+  db.clients.unshift(client);
+
+  db.users.unshift({
+
+    id:"USR-"+String(Date.now()).slice(-7),
+
+    name:admin,
+
+    client:name,
+
+    role:"Admin",
+
+    status:"Active",
+
+    lastLogin:"Just now"
+
+  });
+
+  db.activity.unshift({
+
+    icon:"🏢",
+
+    text:"New client registered",
+
+    client:name,
+
+    time:"Just now"
+
+  });
+
+  save();
+
+  closeModal();
+
+  currentPage="clients";
+
+  search="";
+
+  render();
+
+  notify("Client created successfully");
+
+}
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+function navigate(page){
+
+  currentPage=page;
+
+  search="";
+
+  closeMobile();
+
+  render();
+
+}
+
+document.querySelectorAll(".nav").forEach(button=>{
+
+  button.addEventListener("click",()=>{
+
+    navigate(button.dataset.page);
+
+  });
+
+});
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+
+document.getElementById("globalSearch")
+  .addEventListener("input",event=>{
+
+    search=event.target.value;
+
+    if(currentPage==="dashboard")
+      return;
+
+    render();
+
+  });
+
+function bindPageSearch(){
+
+  const input=
+    document.getElementById("pageSearch");
+
+  if(!input)
+    return;
+
+  input.addEventListener("input",event=>{
+
+    search=event.target.value;
+
+    render();
+
+  });
+
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+document.getElementById("menu")
+  .addEventListener("click",()=>{
+
+    document
+      .getElementById("sidebar")
+      .classList.add("open");
+
+    document
+      .getElementById("overlay")
+      .classList.remove("hidden");
+
+  });
+
+document.getElementById("overlay")
+  .addEventListener("click",closeMobile);
+
+function closeMobile(){
+
+  document
+    .getElementById("sidebar")
+    .classList.remove("open");
+
+  document
+    .getElementById("overlay")
+    .classList.add("hidden");
+
+}
+
+/* =========================================================
+   MODAL
+   ========================================================= */
+
+function closeModal(){
+
+  document.getElementById("modal").innerHTML="";
+
+}
+
+/* =========================================================
+   RENDER
+   ========================================================= */
+
+function render(){
+
+  const content=
+    document.getElementById("content");
+
+  if(currentPage==="dashboard")
+    content.innerHTML=dashboard();
+
+  else if(currentPage==="clients")
+    content.innerHTML=clientsPage();
+
+  else if(currentPage==="installations")
+    content.innerHTML=installationsPage();
+
+  else if(currentPage==="users")
+    content.innerHTML=usersPage();
+
+  else if(currentPage==="players")
+    content.innerHTML=playersPage();
+
+  else if(currentPage==="activity")
+    content.innerHTML=activityPage();
+
+  document.querySelectorAll(".nav")
+    .forEach(button=>{
+
+      button.classList.toggle(
+        "active",
+        button.dataset.page===currentPage
+      );
+
+    });
+
+  bindPageSearch();
+
+}
+
+/* =========================================================
+   FIRST LOAD
+   ========================================================= */
+
+render();
+
+</script>
+
+</body>
+</html>
